@@ -21,7 +21,7 @@ function createLocalStorageMock(): Storage {
     key(index: number) {
       return [...store.keys()][index] ?? null
     },
-  } as Storage
+  }
 }
 
 Object.defineProperty(globalThis, 'localStorage', {

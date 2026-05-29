@@ -40,28 +40,28 @@ watch(
   { immediate: true },
 )
 
+function replaceQuery(query: Record<string, string | string[] | undefined>): void {
+  router.replace({ query }).catch(() => undefined)
+}
+
 function scheduleNameCommit(): void {
   clearTimeout(nameDebounce)
   nameDebounce = setTimeout(() => {
-    void router.replace({
-      query: {
-        ...route.query,
-        page: '1',
-        name: nameDraft.value.trim() ? nameDraft.value.trim() : undefined,
-        species: speciesValue.value ? speciesValue.value : undefined,
-      },
+    replaceQuery({
+      ...route.query,
+      page: '1',
+      name: nameDraft.value.trim() ? nameDraft.value.trim() : undefined,
+      species: speciesValue.value ? speciesValue.value : undefined,
     })
   }, 400)
 }
 
 function onSpeciesInput(): void {
-  void router.replace({
-    query: {
-      ...route.query,
-      page: '1',
-      name: nameQuery.value.trim() ? nameQuery.value.trim() : undefined,
-      species: speciesValue.value ? speciesValue.value : undefined,
-    },
+  replaceQuery({
+    ...route.query,
+    page: '1',
+    name: nameQuery.value.trim() ? nameQuery.value.trim() : undefined,
+    species: speciesValue.value ? speciesValue.value : undefined,
   })
 }
 
@@ -93,13 +93,13 @@ watch([page, nameQuery, speciesQuery], load, { immediate: true })
 
 function goPrev(): void {
   if (page.value <= 1) return
-  void router.replace({ query: { ...route.query, page: String(page.value - 1) } })
+  replaceQuery({ ...route.query, page: String(page.value - 1) })
 }
 
 function goNext(): void {
   const pages = totalPages.value
   if (pages <= 0 || page.value >= pages) return
-  void router.replace({ query: { ...route.query, page: String(page.value + 1) } })
+  replaceQuery({ ...route.query, page: String(page.value + 1) })
 }
 </script>
 
@@ -148,16 +148,16 @@ function goNext(): void {
       </div>
     </section>
 
-    <p v-if="loading" class="state state--loading" role="status">
+    <output v-if="loading" class="state state--loading" aria-live="polite">
       Opening portal… loading characters.
-    </p>
+    </output>
     <p v-else-if="errorMessage" class="state state--error" role="alert">
       {{ errorMessage }}
       <button type="button" class="state__retry" data-testid="retry" @click="load">Retry</button>
     </p>
-    <p v-else-if="characters.length === 0" class="state" role="status">
+    <output v-else-if="characters.length === 0" class="state" aria-live="polite">
       No characters in this slice of the multiverse. Try another name or species.
-    </p>
+    </output>
 
     <ul v-else class="grid" data-testid="character-grid">
       <li v-for="c in characters" :key="c.id" class="grid__item">
@@ -282,6 +282,10 @@ function goNext(): void {
   border-radius: 1rem;
   border: 1px dashed rgb(148 163 184 / 35%);
   color: var(--rm-muted);
+}
+
+output.state {
+  display: block;
 }
 
 .state--loading {
