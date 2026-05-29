@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { Character } from '../types/character'
+import { RouterLink } from 'vue-router'
 import { useFavoritesStore } from '../stores/favorites'
 
 const props = defineProps<{
@@ -15,24 +16,31 @@ function onToggle(): void {
 
 <template>
   <article class="card" data-testid="character-card">
-    <div class="card__media">
-      <img
-        class="card__img"
-        :src="character.image"
-        :alt="`Portrait of ${character.name}`"
-        width="300"
-        height="300"
-        loading="lazy"
-      />
-      <span class="card__status" :data-status="character.status.toLowerCase()">{{
-        character.status
-      }}</span>
-    </div>
+    <RouterLink
+      class="card__link"
+      :to="{ name: 'character-detail', params: { id: String(character.id) } }"
+    >
+      <div class="card__media">
+        <img
+          class="card__img"
+          :src="character.image"
+          :alt="`Portrait of ${character.name}`"
+          width="300"
+          height="300"
+          loading="lazy"
+        />
+        <span class="card__status" :data-status="character.status.toLowerCase()">{{
+          character.status
+        }}</span>
+      </div>
 
-    <div class="card__body">
-      <h2 class="card__name">{{ character.name }}</h2>
-      <p class="card__species">{{ character.species }}</p>
+      <div class="card__body">
+        <h2 class="card__name">{{ character.name }}</h2>
+        <p class="card__species">{{ character.species }}</p>
+      </div>
+    </RouterLink>
 
+    <div class="card__actions">
       <button
         type="button"
         class="card__fav"
@@ -61,6 +69,20 @@ function onToggle(): void {
   border: 1px solid var(--rm-border);
   background: linear-gradient(180deg, rgb(15 23 42 / 95%), rgb(2 6 23 / 92%));
   box-shadow: 0 18px 40px rgb(0 0 0 / 35%);
+}
+
+.card__link {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  text-decoration: none;
+  color: inherit;
+}
+
+.card__link:focus-visible {
+  outline: 2px solid rgb(190 242 100 / 75%);
+  outline-offset: 2px;
 }
 
 .card__media {
@@ -105,7 +127,7 @@ function onToggle(): void {
   display: flex;
   flex-direction: column;
   gap: 0.35rem;
-  padding: 0.85rem 0.95rem 1rem;
+  padding: 0.85rem 0.95rem 0.65rem;
 }
 
 .card__name {
@@ -121,8 +143,12 @@ function onToggle(): void {
   color: var(--rm-muted);
 }
 
+.card__actions {
+  padding: 0 0.95rem 1rem;
+}
+
 .card__fav {
-  margin-top: 0.35rem;
+  width: 100%;
   cursor: pointer;
   border-radius: 0.65rem;
   border: 1px solid rgb(56 189 248 / 35%);

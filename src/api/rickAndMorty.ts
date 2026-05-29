@@ -1,4 +1,5 @@
-import type { ApiErrorBody, CharactersResponse } from '../types/character'
+import type { ApiErrorBody, Character, CharactersResponse } from '../types/character'
+import type { Episode } from '../types/episode'
 
 const BASE_URL = 'https://rickandmortyapi.com/api'
 
@@ -29,4 +30,35 @@ export async function fetchCharacters(params: FetchCharactersParams): Promise<Ch
   }
 
   return data as CharactersResponse
+}
+
+export async function fetchCharacterById(id: number): Promise<Character> {
+  const res = await fetch(`${BASE_URL}/character/${id}`)
+  if (res.status === 404) {
+    throw new Error('Character not found')
+  }
+  if (!res.ok) {
+    throw new Error(`Request failed: ${res.status}`)
+  }
+
+  const data: Character | ApiErrorBody = await res.json()
+  if ('error' in data && typeof data.error === 'string') {
+    throw new Error(data.error)
+  }
+
+  return data as Character
+}
+
+export async function fetchEpisodeById(id: number): Promise<Episode> {
+  const res = await fetch(`${BASE_URL}/episode/${id}`)
+  if (!res.ok) {
+    throw new Error(`Request failed: ${res.status}`)
+  }
+
+  const data: Episode | ApiErrorBody = await res.json()
+  if ('error' in data && typeof data.error === 'string') {
+    throw new Error(data.error)
+  }
+
+  return data as Episode
 }

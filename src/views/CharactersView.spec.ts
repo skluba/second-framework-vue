@@ -22,6 +22,11 @@ function makeCharacter(id: number, name: string): Character {
   }
 }
 
+const testRoutes = [
+  { path: '/', name: 'characters', component: CharactersView },
+  { path: '/character/:id', name: 'character-detail', component: { template: '<div />' } },
+]
+
 describe('CharactersView', () => {
   let fetchMock: ReturnType<typeof vi.fn>
 
@@ -44,7 +49,7 @@ describe('CharactersView', () => {
   it('loads characters and paginates', async () => {
     const router = createRouter({
       history: createMemoryHistory(),
-      routes: [{ path: '/', name: 'characters', component: CharactersView }],
+      routes: testRoutes,
     })
 
     await router.push('/')
@@ -74,7 +79,7 @@ describe('CharactersView', () => {
 
     const router = createRouter({
       history: createMemoryHistory(),
-      routes: [{ path: '/', name: 'characters', component: CharactersView }],
+      routes: testRoutes,
     })
     await router.push('/')
     await router.isReady()
@@ -104,7 +109,7 @@ describe('CharactersView', () => {
 
     const router = createRouter({
       history: createMemoryHistory(),
-      routes: [{ path: '/', name: 'characters', component: CharactersView }],
+      routes: testRoutes,
     })
     await router.push('/')
     await router.isReady()
@@ -140,7 +145,7 @@ describe('CharactersView', () => {
 
     const router = createRouter({
       history: createMemoryHistory(),
-      routes: [{ path: '/', name: 'characters', component: CharactersView }],
+      routes: testRoutes,
     })
     await router.push('/')
     await router.isReady()

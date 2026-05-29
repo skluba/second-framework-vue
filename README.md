@@ -18,7 +18,7 @@ Open the URL printed in the terminal (typically `http://localhost:5173`).
 
 ## Multiverse Catalog (Rick & Morty)
 
-Phase 1 adds the **Characters** experience backed by the public [Rick and Morty API](https://rickandmortyapi.com/documentation) (`GET https://rickandmortyapi.com/api/character` with `page`, `name`, and `species` filters). The header links to placeholder routes for **Character** (Phase 2) and **Favorites** (Phase 3); favorites chosen on cards persist in `localStorage`.
+Phase 1 adds the **Characters** experience backed by the public [Rick and Morty API](https://rickandmortyapi.com/documentation) (`GET https://rickandmortyapi.com/api/character` with `page`, `name`, and `species` filters). **Phase 2** adds **`/character/:id`**: portrait, name, species, status, last known location, first TV appearance (minimum episode id + `GET /api/episode/:id`), and add/remove **favourites** (same Pinia + `localStorage` store as the grid). Cards link into the dossier. **Favorites** list page remains Phase 3.
 
 ## Scripts
 
