@@ -20,6 +20,8 @@ export default defineConfig({
       exclude: [
         'src/main.ts',
         'src/vite-env.d.ts',
+        'src/types/**',
+        '**/*.d.ts',
         'src/test/**',
         '**/*.spec.ts',
         '**/*.config.*',

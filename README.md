@@ -16,6 +16,10 @@ npm run dev
 
 Open the URL printed in the terminal (typically `http://localhost:5173`).
 
+## Multiverse Catalog (Rick & Morty)
+
+Phase 1 adds the **Characters** experience backed by the public [Rick and Morty API](https://rickandmortyapi.com/documentation) (`GET https://rickandmortyapi.com/api/character` with `page`, `name`, and `species` filters). The header links to placeholder routes for **Character** (Phase 2) and **Favorites** (Phase 3); favorites chosen on cards persist in `localStorage`.
+
 ## Scripts
 
 | Script                  | Description                                      |
