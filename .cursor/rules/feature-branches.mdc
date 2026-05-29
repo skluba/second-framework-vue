@@ -1,0 +1,25 @@
+---
+description: Implement each feature on its own Git branch
+alwaysApply: true
+---
+
+# One feature per branch
+
+**Do not implement unrelated features on the same branch.** Each distinct feature, bugfix, or refactor worth shipping or reviewing on its own should live on a **separate branch** off the agreed base (usually `main` / `develop`).
+
+## Workflow
+
+- **Before coding**: create or switch to a branch named for the work (e.g. `feature/user-profile`, `fix/login-redirect`). Avoid generic names like `updates` when the change has a clear scope.
+- **Scope**: one PR-sized goal per branch. If scope creeps, split follow-up work into another branch.
+- **Do not mix**: unrelated tickets, drive-by refactors, or formatting sweeps in the same branch as a feature unless the user explicitly asked for a combined change.
+
+## When the user asks for multiple things
+
+- Finish or pause one branch, merge or hand off, then start the next on a new branch—or ask which item should ship first if order matters.
+
+### Example
+
+```text
+# ❌ BAD: branch `feature/dashboard` also contains auth changes and dependency bumps
+# ✅ GOOD: `feature/dashboard-widgets` only dashboard work; auth in `feature/oauth-callback`
+```

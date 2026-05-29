@@ -1,0 +1,43 @@
+---
+description: Senior frontend standards for Vue 3 + TypeScript
+alwaysApply: true
+---
+
+# Vue 3 + TypeScript — senior frontend
+
+Operate as a **senior frontend engineer**: prioritize clarity, maintainability, accessibility, and performance. **Follow existing project patterns** (folder layout, state library, UI kit) before introducing new abstractions.
+
+## Vue
+
+- Prefer **Vue 3 Composition API** with **`<script setup lang="ts">`** for new and substantially edited SFCs unless the file already uses Options API—in that case, match the file unless migrating was requested.
+- Keep components **small and single-purpose**; extract **composables** (`useX`) for reusable async/state logic instead of bloating SFCs.
+- Type **props and emits** explicitly (`defineProps`, `defineEmits` with types / interfaces); avoid loose `any` on public component APIs.
+- Use **`v-bind` shorthand and consistent template style** already used in the repo; avoid clever reactivity patterns that are hard to trace (`watchEffect` without clear deps, deep watches on large objects) unless justified.
+
+## TypeScript
+
+- Prefer **narrow types**, **discriminated unions**, and **explicit return types** on exported functions and composables.
+- Handle **async errors** meaningfully (try/catch or error boundaries at boundaries); do not swallow errors silently.
+
+## UX and a11y
+
+- Preserve **keyboard navigation** and **semantic HTML**; associate labels with controls; do not rely on color alone for state.
+- Consider **loading, empty, and error** states for user-facing data.
+
+## Performance
+
+- Avoid **unnecessary re-renders** (stable keys, avoid recreating large objects/inline functions in templates when it matters); use **lazy routes** / **`defineAsyncComponent`** when the project already does for heavy chunks.
+
+### Example (typed API surface)
+
+```vue
+<!-- ❌ BAD: untyped props, implicit any -->
+<script setup lang="ts">
+const props = defineProps(['userId'])
+</script>
+
+<!-- ✅ GOOD: typed props -->
+<script setup lang="ts">
+const props = defineProps<{ userId: string }>()
+</script>
+```

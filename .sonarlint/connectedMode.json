@@ -1,0 +1,5 @@
+{
+  "sonarQubeUri": "https://sonarcloud.io",
+  "sonarCloudOrganization": "skluba",
+  "projectKey": "skluba_second-framework-vue"
+}
