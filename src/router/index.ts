@@ -1,6 +1,7 @@
 import type { RouterScrollBehavior } from 'vue-router'
 import { createRouter, createWebHistory } from 'vue-router'
 import CharactersView from '../views/CharactersView.vue'
+import CharacterDetailView from '../views/CharacterDetailView.vue'
 import PlaceholderView from '../views/PlaceholderView.vue'
 
 export const routes = [
@@ -13,11 +14,8 @@ export const routes = [
   {
     path: '/character/:id',
     name: 'character-detail',
-    component: PlaceholderView,
-    meta: {
-      title: 'Character dossier',
-      blurb: 'Phase 2 — full dossier, origin, episodes, and more are on the way.',
-    },
+    component: CharacterDetailView,
+    meta: { title: 'Character dossier' },
   },
   {
     path: '/favorites',
