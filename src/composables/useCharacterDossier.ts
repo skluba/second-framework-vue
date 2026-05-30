@@ -79,7 +79,7 @@ export function useCharacterDossier() {
   const firstSeenLabel = computed(() => {
     if (firstEpisodeLoading.value) return 'Loading…'
     if (firstEpisodeName.value) return firstEpisodeName.value
-    if (character.value && character.value.episode.length === 0) return 'No episode data'
+    if (character.value?.episode?.length === 0) return 'No episode data'
     return 'Unknown'
   })
 
