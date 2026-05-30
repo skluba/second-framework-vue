@@ -1,16 +1,16 @@
 <script setup lang="ts">
-import type { Character } from '../types/character'
+import type { FavoriteCharacterSnapshot } from '../types/character'
 import { RouterLink } from 'vue-router'
 import { useFavoritesStore } from '../stores/favorites'
 
 const props = defineProps<{
-  character: Character
+  character: FavoriteCharacterSnapshot
 }>()
 
 const favorites = useFavoritesStore()
 
 function onToggle(): void {
-  favorites.toggle(props.character.id)
+  favorites.toggle(props.character)
 }
 </script>
 

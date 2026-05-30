@@ -1,54 +1,100 @@
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
+import type { FavoriteCharacterSnapshot } from '../types/character'
 
-const STORAGE_KEY = 'rm-favorite-character-ids'
+/** Current format: array of card snapshots (Phase 3). */
+export const FAVORITES_STORAGE_KEY = 'rm-favorite-characters'
+/** Phase 1–2: numeric ids only — migrated away on read (cards need stored fields). */
+export const FAVORITES_LEGACY_IDS_STORAGE_KEY = 'rm-favorite-character-ids'
 
-function readStoredIds(): number[] {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY)
-    if (!raw) return []
-    const parsed: unknown = JSON.parse(raw)
-    if (!Array.isArray(parsed)) return []
-    return parsed.filter((id): id is number => typeof id === 'number' && Number.isFinite(id))
-  } catch {
-    return []
+function isValidSnapshot(x: unknown): x is FavoriteCharacterSnapshot {
+  if (!x || typeof x !== 'object') return false
+  const o = x as Record<string, unknown>
+  return (
+    typeof o.id === 'number' &&
+    Number.isFinite(o.id) &&
+    typeof o.name === 'string' &&
+    typeof o.species === 'string' &&
+    typeof o.status === 'string' &&
+    typeof o.image === 'string'
+  )
+}
+
+function pickSnapshot(char: FavoriteCharacterSnapshot): FavoriteCharacterSnapshot {
+  return {
+    id: char.id,
+    name: char.name,
+    species: char.species,
+    status: char.status,
+    image: char.image,
   }
 }
 
-function writeStoredIds(ids: number[]): void {
+function dedupeById(list: FavoriteCharacterSnapshot[]): FavoriteCharacterSnapshot[] {
+  const seen = new Set<number>()
+  const out: FavoriteCharacterSnapshot[] = []
+  for (const c of list) {
+    if (seen.has(c.id)) continue
+    seen.add(c.id)
+    out.push(c)
+  }
+  return out
+}
+
+function readStored(): FavoriteCharacterSnapshot[] {
   try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(ids))
+    const rawChars = localStorage.getItem(FAVORITES_STORAGE_KEY)
+    if (rawChars) {
+      const parsed: unknown = JSON.parse(rawChars)
+      if (!Array.isArray(parsed)) return []
+      return dedupeById(parsed.filter(isValidSnapshot))
+    }
+
+    const rawLegacy = localStorage.getItem(FAVORITES_LEGACY_IDS_STORAGE_KEY)
+    if (rawLegacy !== null) {
+      localStorage.removeItem(FAVORITES_LEGACY_IDS_STORAGE_KEY)
+    }
+  } catch {
+    return []
+  }
+  return []
+}
+
+function writeStored(items: FavoriteCharacterSnapshot[]): void {
+  try {
+    localStorage.setItem(FAVORITES_STORAGE_KEY, JSON.stringify(items))
   } catch {
     /* ignore quota / private mode */
   }
 }
 
 export const useFavoritesStore = defineStore('favorites', () => {
-  const ids = ref<number[]>(readStoredIds())
+  const items = ref<FavoriteCharacterSnapshot[]>(readStored())
 
   function persist(): void {
-    writeStoredIds(ids.value)
+    writeStored(items.value)
   }
 
-  const count = computed(() => ids.value.length)
+  const count = computed(() => items.value.length)
 
   function isFavorite(id: number): boolean {
-    return ids.value.includes(id)
+    return items.value.some((c) => c.id === id)
   }
 
-  function toggle(id: number): void {
-    if (ids.value.includes(id)) {
-      ids.value = ids.value.filter((x) => x !== id)
+  function toggle(char: FavoriteCharacterSnapshot): void {
+    const id = char.id
+    if (items.value.some((c) => c.id === id)) {
+      items.value = items.value.filter((c) => c.id !== id)
     } else {
-      ids.value = [...ids.value, id]
+      items.value = [...items.value, pickSnapshot(char)]
     }
     persist()
   }
 
   function remove(id: number): void {
-    ids.value = ids.value.filter((x) => x !== id)
+    items.value = items.value.filter((c) => c.id !== id)
     persist()
   }
 
-  return { ids, count, isFavorite, toggle, remove }
+  return { items, count, isFavorite, toggle, remove }
 })

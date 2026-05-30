@@ -18,24 +18,24 @@ Open the URL printed in the terminal (typically `http://localhost:5173`).
 
 ## Multiverse Catalog (Rick & Morty)
 
-Phase 1 adds the **Characters** experience backed by the public [Rick and Morty API](https://rickandmortyapi.com/documentation) (`GET https://rickandmortyapi.com/api/character` with `page`, `name`, and `species` filters). **Phase 2** adds **`/character/:id`**: portrait, name, species, status, last known location, first TV appearance (minimum episode id + `GET /api/episode/:id`), and add/remove **favourites** (same Pinia + `localStorage` store as the grid). Cards link into the dossier. **Favorites** list page remains Phase 3.
+Phase 1 adds the **Characters** experience backed by the public [Rick and Morty API](https://rickandmortyapi.com/documentation) (`GET https://rickandmortyapi.com/api/character` with `page`, `name`, and `species` filters). **Phase 2** adds **`/character/:id`**: portrait, name, species, status, last known location, first TV appearance (minimum episode id + `GET /api/episode/:id`), and add/remove **favourites** from the grid or dossier. Cards link into the dossier. **Phase 3** adds **`/favorites`**: a simple grid of favorited cards (no filters, no pagination); each card’s display fields are persisted in **`localStorage`** (`rm-favorite-characters`). If nothing is saved, the page shows **“no cards”**.
 
 ## Scripts
 
-| Script                  | Description                                      |
-| ----------------------- | ------------------------------------------------ |
-| `npm run dev`           | Vite dev server                                  |
-| `npm run build`         | Typecheck + production build to `dist/`          |
-| `npm run preview`       | Preview production build                         |
-| `npm run lint`          | ESLint                                           |
-| `npm run format`        | Prettier write                                   |
-| `npm run format:check`  | Prettier check                                   |
-| `npm run typecheck`     | `vue-tsc` project references                     |
-| `npm run test`          | Vitest (single run)                              |
-| `npm run test:watch`    | Vitest watch                                     |
-| `npm run test:coverage` | Vitest + V8 coverage + `coverage/lcov.info`      |
-| `npm run test:e2e`      | Playwright (starts `vite preview` automatically) |
-| `npm run test:e2e:ui`   | Playwright UI                                    |
+| Script                  | Description                                                                                    |
+| ----------------------- | ---------------------------------------------------------------------------------------------- |
+| `npm run dev`           | Vite dev server                                                                                |
+| `npm run build`         | Typecheck + production build to `dist/`                                                        |
+| `npm run preview`       | Preview production build                                                                       |
+| `npm run lint`          | ESLint                                                                                         |
+| `npm run format`        | Prettier write                                                                                 |
+| `npm run format:check`  | Prettier check                                                                                 |
+| `npm run typecheck`     | `vue-tsc` project references                                                                   |
+| `npm run test`          | Vitest (single run)                                                                            |
+| `npm run test:watch`    | Vitest watch                                                                                   |
+| `npm run test:coverage` | Vitest + V8 coverage + `coverage/lcov.info`                                                    |
+| `npm run test:e2e`      | Playwright (`vite preview`; locally runs **`npm run build`** first so `dist/` matches sources) |
+| `npm run test:e2e:ui`   | Playwright UI                                                                                  |
 
 ## Docker
 

@@ -82,7 +82,7 @@ const firstSeenLabel = computed(() => {
 
 function onToggleFavorite(): void {
   if (!character.value) return
-  favorites.toggle(character.value.id)
+  favorites.toggle(character.value)
 }
 </script>
 

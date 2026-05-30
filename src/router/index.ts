@@ -2,7 +2,7 @@ import type { RouterScrollBehavior } from 'vue-router'
 import { createRouter, createWebHistory } from 'vue-router'
 import CharactersView from '../views/CharactersView.vue'
 import CharacterDetailView from '../views/CharacterDetailView.vue'
-import PlaceholderView from '../views/PlaceholderView.vue'
+import FavoritesView from '../views/FavoritesView.vue'
 
 export const routes = [
   {
@@ -20,11 +20,8 @@ export const routes = [
   {
     path: '/favorites',
     name: 'favorites',
-    component: PlaceholderView,
-    meta: {
-      title: 'Favorite characters',
-      blurb: 'Phase 3 — your interdimensional shortlist will appear here.',
-    },
+    component: FavoritesView,
+    meta: { title: 'Favorite characters' },
   },
 ]
 
