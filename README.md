@@ -67,6 +67,16 @@ VITE_BASE_URL=/second-framework-vue/ npm run build && npm run preview
 
 (Replace `second-framework-vue` with your repo name if different.)
 
+### Troubleshooting: blank page and `GET …/src/main.ts` 404
+
+That request means the browser loaded the **development** `index.html` from the repo root (it still points at `/src/main.ts`). A real `npm run build` output never contains `src/main.ts` — it only has hashed files under `/<repo>/assets/`.
+
+**Fix**
+
+1. **Settings → Pages → Build and deployment → Source** must be **GitHub Actions**, not **Deploy from a branch**. If a branch/folder is selected, GitHub serves raw repository files and you get the wrong `index.html`.
+2. Open the **project** URL including the repository name, e.g. `https://skluba.github.io/second-framework-vue/` — not `https://skluba.github.io/` (that origin has no `/second-framework-vue/` prefix, so even correct asset paths would break).
+3. Under **Actions**, confirm **“Deploy GitHub Pages (demo)”** completed successfully after your last push to **`demo`**.
+
 ## SonarCloud
 
 Configured for organization **`skluba`** and host **`https://sonarcloud.io`** (see `sonar-project.properties`).

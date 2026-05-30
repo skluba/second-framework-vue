@@ -1,3 +1,6 @@
+# Serves the Vite *production* bundle from dist/. If Pages "Source" is set to
+# "Deploy from a branch", GitHub will serve repo-root index.html (dev entry
+# /src/main.ts) instead — use Settings → Pages → GitHub Actions only.
 name: Deploy GitHub Pages (demo)
 
 on:
@@ -31,6 +34,15 @@ jobs:
         run: npm run build
         env:
           VITE_BASE_URL: /${{ github.event.repository.name }}/
+
+      - name: Verify bundle is not dev index.html
+        run: |
+          if grep -qE 'src/main\.ts|/src/main' dist/index.html; then
+            echo '::error::dist/index.html still references Vite dev entry. Pages must deploy this workflow artifact, not "Deploy from a branch".' >&2
+            cat dist/index.html >&2
+            exit 1
+          fi
+          echo "OK: production index references built assets under /${{ github.event.repository.name }}/"
 
       - name: SPA deep-link fallback (404 → index)
         run: cp dist/index.html dist/404.html
