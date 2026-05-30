@@ -47,8 +47,7 @@ const isEmpty = computed(() => favorites.count === 0)
   border: 1px solid var(--rm-border);
   background:
     radial-gradient(circle at 18% 22%, rgb(250 204 21 / 14%), transparent 42%),
-    radial-gradient(circle at 82% 12%, rgb(56 189 248 / 14%), transparent 38%),
-    rgb(2 6 23 / 55%);
+    radial-gradient(circle at 82% 12%, rgb(56 189 248 / 14%), transparent 38%), rgb(2 6 23 / 55%);
 }
 
 .favorites__eyebrow {

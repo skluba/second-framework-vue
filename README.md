@@ -22,20 +22,20 @@ Phase 1 adds the **Characters** experience backed by the public [Rick and Morty 
 
 ## Scripts
 
-| Script                  | Description                                      |
-| ----------------------- | ------------------------------------------------ |
-| `npm run dev`           | Vite dev server                                  |
-| `npm run build`         | Typecheck + production build to `dist/`          |
-| `npm run preview`       | Preview production build                         |
-| `npm run lint`          | ESLint                                           |
-| `npm run format`        | Prettier write                                   |
-| `npm run format:check`  | Prettier check                                   |
-| `npm run typecheck`     | `vue-tsc` project references                     |
-| `npm run test`          | Vitest (single run)                              |
-| `npm run test:watch`    | Vitest watch                                     |
-| `npm run test:coverage` | Vitest + V8 coverage + `coverage/lcov.info`      |
+| Script                  | Description                                                                                    |
+| ----------------------- | ---------------------------------------------------------------------------------------------- |
+| `npm run dev`           | Vite dev server                                                                                |
+| `npm run build`         | Typecheck + production build to `dist/`                                                        |
+| `npm run preview`       | Preview production build                                                                       |
+| `npm run lint`          | ESLint                                                                                         |
+| `npm run format`        | Prettier write                                                                                 |
+| `npm run format:check`  | Prettier check                                                                                 |
+| `npm run typecheck`     | `vue-tsc` project references                                                                   |
+| `npm run test`          | Vitest (single run)                                                                            |
+| `npm run test:watch`    | Vitest watch                                                                                   |
+| `npm run test:coverage` | Vitest + V8 coverage + `coverage/lcov.info`                                                    |
 | `npm run test:e2e`      | Playwright (`vite preview`; locally runs **`npm run build`** first so `dist/` matches sources) |
-| `npm run test:e2e:ui`   | Playwright UI                                    |
+| `npm run test:e2e:ui`   | Playwright UI                                                                                  |
 
 ## Docker
 
