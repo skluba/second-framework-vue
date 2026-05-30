@@ -20,6 +20,7 @@ export default tseslint.config(
   {
     files: ['**/*.vue'],
     languageOptions: {
+      globals: { ...globals.browser },
       parserOptions: {
         parser: tseslint.parser,
       },

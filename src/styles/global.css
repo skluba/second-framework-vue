@@ -1,0 +1,44 @@
+@import url('https://fonts.googleapis.com/css2?family=Creepster&family=Inter:wght@400;600;700;800&display=swap');
+
+:root {
+  color-scheme: dark;
+  --rm-bg: #020617;
+  --rm-text: #e2e8f0;
+  --rm-muted: #94a3b8;
+  --rm-border: rgb(148 163 184 / 22%);
+  --rm-font-display: 'Creepster', system-ui, sans-serif;
+  --rm-font-body: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--rm-font-body);
+  background:
+    radial-gradient(1200px 600px at 20% -10%, rgb(34 197 94 / 18%), transparent 60%),
+    radial-gradient(900px 500px at 90% 0%, rgb(56 189 248 / 14%), transparent 55%),
+    radial-gradient(700px 500px at 50% 110%, rgb(168 85 247 / 12%), transparent 55%), var(--rm-bg);
+  color: var(--rm-text);
+}
+
+#app {
+  min-height: 100%;
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible {
+  outline: 2px solid rgb(190 242 100 / 75%);
+  outline-offset: 2px;
+}
