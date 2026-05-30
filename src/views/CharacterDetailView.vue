@@ -1,89 +1,16 @@
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue'
-import { RouterLink, useRoute } from 'vue-router'
-import { fetchCharacterById, fetchEpisodeById } from '../api/rickAndMorty'
-import { useFavoritesStore } from '../stores/favorites'
-import type { Character } from '../types/character'
-import { getFirstSeenEpisodeId } from '../utils/firstSeenEpisode'
+import { RouterLink } from 'vue-router'
+import { useCharacterDossier } from '../composables/useCharacterDossier'
 
-const route = useRoute()
-const favorites = useFavoritesStore()
-
-const loading = ref(true)
-const errorMessage = ref<string | null>(null)
-const character = ref<Character | null>(null)
-const firstEpisodeName = ref<string | null>(null)
-const firstEpisodeLoading = ref(false)
-
-function parseRouteId(): number | null {
-  const raw = route.params.id
-  const v = Array.isArray(raw) ? raw[0] : raw
-  const n = Number(v)
-  return Number.isFinite(n) && n >= 1 ? Math.floor(n) : null
-}
-
-async function load(id: number): Promise<void> {
-  loading.value = true
-  errorMessage.value = null
-  character.value = null
-  firstEpisodeName.value = null
-  firstEpisodeLoading.value = false
-
-  try {
-    const c = await fetchCharacterById(id)
-    character.value = c
-
-    const epId = getFirstSeenEpisodeId(c)
-    if (epId === null) {
-      firstEpisodeName.value = null
-      return
-    }
-
-    firstEpisodeLoading.value = true
-    try {
-      const ep = await fetchEpisodeById(epId)
-      firstEpisodeName.value = ep.name
-    } catch {
-      firstEpisodeName.value = 'Unavailable'
-    } finally {
-      firstEpisodeLoading.value = false
-    }
-  } catch (e) {
-    errorMessage.value = e instanceof Error ? e.message : 'Failed to load character'
-  } finally {
-    loading.value = false
-  }
-}
-
-watch(
-  () => route.params.id,
-  async () => {
-    const id = parseRouteId()
-    if (id === null) {
-      loading.value = false
-      errorMessage.value = 'Invalid character id'
-      character.value = null
-      firstEpisodeName.value = null
-      return
-    }
-    await load(id)
-  },
-  { immediate: true },
-)
-
-const locationLabel = computed(() => character.value?.location?.name?.trim() || 'Unknown')
-
-const firstSeenLabel = computed(() => {
-  if (firstEpisodeLoading.value) return 'Loading…'
-  if (firstEpisodeName.value) return firstEpisodeName.value
-  if (character.value && character.value.episode.length === 0) return 'No episode data'
-  return 'Unknown'
-})
-
-function onToggleFavorite(): void {
-  if (!character.value) return
-  favorites.toggle(character.value)
-}
+const {
+  loading,
+  errorMessage,
+  character,
+  locationLabel,
+  firstSeenLabel,
+  favorites,
+  onToggleFavorite,
+} = useCharacterDossier()
 </script>
 
 <template>
