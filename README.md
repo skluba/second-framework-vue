@@ -18,7 +18,7 @@ Open the URL printed in the terminal (typically `http://localhost:5173`).
 
 ## Multiverse Catalog (Rick & Morty)
 
-Phase 1 adds the **Characters** experience backed by the public [Rick and Morty API](https://rickandmortyapi.com/documentation) (`GET https://rickandmortyapi.com/api/character` with `page`, `name`, and `species` filters). **Phase 2** adds **`/character/:id`**: portrait, name, species, status, last known location, first TV appearance (minimum episode id + `GET /api/episode/:id`), and add/remove **favourites** from the grid or dossier. Cards link into the dossier. **Phase 3** adds **`/favorites`**: a simple grid of favorited cards (no filters, no pagination); each card’s display fields are persisted in **`localStorage`** (`rm-favorite-characters`). If nothing is saved, the page shows **“no cards”**.
+Phase 1 adds the **Characters** experience backed by the public [Rick and Morty API](https://rickandmortyapi.com/documentation) (`GET https://rickandmortyapi.com/api/character` with `page`, `name`, and `species` filters). **Phase 2** adds **`/character/:id`**: portrait, name, species, status, last known location, first TV appearance (minimum episode id + `GET /api/episode/:id`), and add/remove **favourites** from the grid or dossier. Cards link into the dossier. **Phase 3** adds **`/favorites`**: a simple grid of favorited cards (no filters, no pagination); each card’s display fields are persisted in **`localStorage`** (`rm-favorite-characters`). If nothing is saved, the page shows **“no cards”**. Route-level behaviour lives in **`src/composables/`** (catalog, dossier, favourites list); shared bookmark state stays in **Pinia** (`useFavorites` composable wraps the store for UI).
 
 ## Scripts
 
@@ -86,6 +86,7 @@ Ensure the default branch name in the workflow matches your repository (`main` v
 ```text
 e2e/                 Playwright specs
 src/                 Application + Vitest specs (`*.spec.ts`)
+src/composables/     Vue composables (catalog, dossier, favourites)
 nginx/               SPA nginx config for Docker
 .github/workflows/   CI
 ```

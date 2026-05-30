@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { RouterLink, useRoute } from 'vue-router'
-import { useFavoritesStore } from '../stores/favorites'
+import { useFavorites } from '../composables/useFavorites'
 
 const route = useRoute()
-const favorites = useFavoritesStore()
+const favorites = useFavorites()
 
 const isCharactersActive = computed(() => route.name === 'characters')
 const isDetailActive = computed(() => route.name === 'character-detail')

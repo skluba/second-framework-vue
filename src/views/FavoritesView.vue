@@ -1,11 +1,8 @@
 <script setup lang="ts">
-import { computed } from 'vue'
 import CharacterCard from '../components/CharacterCard.vue'
-import { useFavoritesStore } from '../stores/favorites'
+import { useFavoritesList } from '../composables/useFavoritesList'
 
-const favorites = useFavoritesStore()
-
-const isEmpty = computed(() => favorites.count === 0)
+const { items, isEmpty } = useFavoritesList()
 </script>
 
 <template>
@@ -24,7 +21,7 @@ const isEmpty = computed(() => favorites.count === 0)
     <p v-if="isEmpty" class="state" data-testid="favorites-empty">no cards</p>
 
     <ul v-else class="grid" data-testid="favorites-grid">
-      <li v-for="c in favorites.items" :key="c.id" class="grid__item">
+      <li v-for="c in items" :key="c.id" class="grid__item">
         <CharacterCard :character="c" />
       </li>
     </ul>
