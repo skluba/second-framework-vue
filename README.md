@@ -49,6 +49,24 @@ Then open `http://localhost:8080`.
 
 Multi-stage `Dockerfile`: Node installs dependencies and builds; nginx serves `dist/`.
 
+## GitHub Pages (demo branch)
+
+Pushes to the **`demo`** branch build the SPA with base path `/<repository-name>/` and deploy via **GitHub Actions** (workflow [`.github/workflows/deploy-pages-demo.yml`](.github/workflows/deploy-pages-demo.yml)).
+
+1. In the repository: **Settings → Pages → Build and deployment → Source**: choose **GitHub Actions** (not “Deploy from a branch”).
+2. Merge or push the workflow + Vite base changes to **`demo`** (or open a PR into `demo` and merge). The workflow runs on every push to `demo`.
+3. After a successful run, the site is available at  
+   `https://<owner>.github.io/<repository-name>/`  
+   (for example `https://skluba.github.io/second-framework-vue/`).
+
+**Local check** with the same base path as production:
+
+```bash
+VITE_BASE_URL=/second-framework-vue/ npm run build && npm run preview
+```
+
+(Replace `second-framework-vue` with your repo name if different.)
+
 ## SonarCloud
 
 Configured for organization **`skluba`** and host **`https://sonarcloud.io`** (see `sonar-project.properties`).
