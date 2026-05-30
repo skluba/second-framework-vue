@@ -16,6 +16,14 @@ npm run dev
 
 Open the URL printed in the terminal (typically `http://localhost:5173`).
 
+## Live demo (GitHub Pages)
+
+A public build is published from the **`demo`** branch via GitHub Actions:
+
+**https://skluba.github.io/second-framework-vue/**
+
+Open that URL including the repository path (not the bare `github.io` origin). See the **`demo`** branch README for Pages configuration and troubleshooting.
+
 ## Multiverse Catalog (Rick & Morty)
 
 Phase 1 adds the **Characters** experience backed by the public [Rick and Morty API](https://rickandmortyapi.com/documentation) (`GET https://rickandmortyapi.com/api/character` with `page`, `name`, and `species` filters). **Phase 2** adds **`/character/:id`**: portrait, name, species, status, last known location, first TV appearance (minimum episode id + `GET /api/episode/:id`), and add/remove **favourites** from the grid or dossier. Cards link into the dossier. **Phase 3** adds **`/favorites`**: a simple grid of favorited cards (no filters, no pagination); each card’s display fields are persisted in **`localStorage`** (`rm-favorite-characters`). If nothing is saved, the page shows **“no cards”**. Route-level behaviour lives in **`src/composables/`** (catalog, dossier, favourites list); shared bookmark state stays in **Pinia** (`useFavorites` composable wraps the store for UI).
