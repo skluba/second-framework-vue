@@ -3,6 +3,12 @@ import { defineConfig, devices } from '@playwright/test'
 const port = 4173
 const baseURL = `http://127.0.0.1:${port}`
 
+/** CI runs `npm run build` before e2e; locally we build so preview is never stale. */
+const previewCommand =
+  process.env.CI === 'true'
+    ? `npm run preview -- --host 127.0.0.1 --port ${port}`
+    : `npm run build && npm run preview -- --host 127.0.0.1 --port ${port}`
+
 export default defineConfig({
   testDir: './e2e',
   fullyParallel: true,
@@ -24,9 +30,10 @@ export default defineConfig({
   },
   projects: [{ name: 'chromium', use: { ...devices['Desktop Chrome'] } }],
   webServer: {
-    command: 'npm run preview -- --host 127.0.0.1 --port 4173',
+    command: previewCommand,
     url: baseURL,
-    reuseExistingServer: !process.env.CI,
+    /** Always start our preview so `command` runs (local `build && preview` is not skipped by reuse). */
+    reuseExistingServer: false,
     timeout: 120_000,
   },
 })

@@ -5,6 +5,12 @@ export interface CharacterLocationRef {
   url: string
 }
 
+/** Minimal fields needed for grid cards + localStorage favourites */
+export type FavoriteCharacterSnapshot = Pick<
+  Character,
+  'id' | 'name' | 'species' | 'status' | 'image'
+>
+
 export interface Character {
   id: number
   name: string
